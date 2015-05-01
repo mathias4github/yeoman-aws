@@ -19,6 +19,7 @@
         - rubygems
         - libfontconfig1
         - libpng-dev
+        - ruby-dev
 
     - name: "Download and modify apt sources for node.js"
       sudo: yes
@@ -55,9 +56,8 @@
         - phantomjs
         - karma-phantomjs-launcher
         - karma-jasmine
-        - generator-gulp-webapp
-        - generator-webapp
-        - generator-angular
+        - gulp-rsync
+        - generator-gulp-angular
 
     - name: "Install Compass"
       sudo: yes
@@ -66,5 +66,5 @@
         - compass 
 
     ### Move to /vagrant on login
-    - name: "Move to /vagrant on login"
-      lineinfile: dest=/home/admin/.profile line="cd /vagrant/" create=yes
+    #- name: "Move to /vagrant on login"
+    #  lineinfile: dest=/home/admin/.profile line="cd /vagrant/" create=yes

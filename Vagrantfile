@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :aws do |aws, override|
     override.ssh.username = "admin"
     override.ssh.private_key_path = "~/.ssh/vagrant-test.pem"
+    aws.elastic_ip = "52.28.82.97"
   end
 
   config.vm.define "yeoman-vm" do |machine|
