@@ -1,0 +1,57 @@
+" vimrc.local file
+"
+" Now we set some defaults for the editor 
+set nocompatible
+
+set backspace=2
+
+set ruler
+
+syntax on
+set background=dark
+
+set encoding=utf-8
+
+set showcmd            " Show (partial) command in status line.
+set showmatch          " Show matching brackets.
+set smartcase          " Do smart case matching
+set incsearch          " Incremental search
+set hlsearch
+
+set backupdir^=~/.vim/_backup//    " where to put backup files.
+set directory^=~/.vim/_temp//      " where to put swap files.
+
+set modeline        " last lines in document sets vim mode
+set modelines=3     " number lines checked for modelines
+set tabstop=8
+
+function! SetupEnvironment()
+  setlocal expandtab smarttab textwidth=0
+  if &filetype == 'javascript'
+    setlocal softtabstop=2 shiftwidth=2
+  else
+    setlocal softtabstop=4 shiftwidth=4
+  endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
+
+set laststatus=1
+set statusline=%0*%<*%-.52F\ %h%m%r%=\ %{&ff}\ %{&fenc!=''?&fenc:&enc}\ %Y\ %04l/%03c\ 0x%04.4B
+
+if has("autocmd")
+  filetype plugin indent on
+
+  " In Makefiles, use real tabs, not tabs expanded to spaces
+  au FileType make setlocal noexpandtab
+
+  " Treat JSON files like JavaScript
+  au BufNewFile,BufRead *.json set ft=javascript
+
+  " make Python follow PEP8 for whitespace ( http://www.python.org/dev/peps/pep-0008/ )
+  au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4
+
+  " Remember last location in file, but not for commit messages.
+  " see :help last-position-jump
+  au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+endif
