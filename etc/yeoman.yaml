@@ -13,6 +13,7 @@
       sudo: yes
       with_items:
         - git
+        - vim
         - build-essential
         - curl
         - python-software-properties
@@ -56,6 +57,7 @@
         - phantomjs
         - karma-phantomjs-launcher
         - karma-jasmine
+        - gulp
         - gulp-rsync
         - generator-gulp-angular
 
@@ -65,6 +67,10 @@
       with_items:
         - compass 
 
+    - name: "Install editor settings"
+      copy: src=vimrc dest=/home/{{ansible_ssh_user}}/.vimrc owner={{ansible_ssh_user}} group={{ansible_ssh_user}} mode="u=rw,g=r,o=r"
+
     ### Move to /vagrant on login
-    #- name: "Move to /vagrant on login"
-    #  lineinfile: dest=/home/admin/.profile line="cd /vagrant/" create=yes
+    - name: "Move to /vagrant on login"
+      tags: skip_for_aws
+      lineinfile: dest=/home/{{ansible_ssh_user}}/.profile line="cd /{{ansible_ssh_user}}/" create=yes
